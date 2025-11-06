@@ -1,0 +1,18 @@
+ho 3000t设备信息
+cpu:s905lb  网卡:rtl8189etv
+
+二、刷机教程
+1.准备双头usb线、s905短接器（也可以自行找短接图自己短接）、u盘（8g）
+2.电脑开打USB_Burning_Tool导入安卓底包，设备插入短接器usb连接设备开始刷机
+3.u盘写入armbian系统我刷入的是Armbian_25.08.0_amlogic_s905lb-r3300l_trixie_5.15.189_server_2025.08.01.img
+4.进入安卓系统安卓车载启动软件设备插上盘打开软件点击首次启动
+5.armbian系统加载完之后ssh连接输入armbian-install写入设备内存设备id选meson-gxl-s905x-b860h
+6.换国内源
+7.编译rtl8189etv
+git clone https://github.com/jwrdegoede/rtl8189ES_linux.git
+cd ~/rtl8189ES_linux/
+make -j4 ARCH=arm64 KSRC=/usr/lib/modules/$(uname -r)/build
+sudo cp 8189es.ko /usr/lib/modules/$(uname -r)/kernel/drivers/net/wireless/realtek/
+sudo depmod -a
+sudo modprobe 8189es
+8.自行配置无线就可以了
